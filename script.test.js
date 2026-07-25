@@ -3,45 +3,43 @@ import { Node } from "./nodeClass.js";
 
 const board = new Board();
 
-const allCoords = [];
-for (let i = 0; i < 8; i++) {
-    for (let j = 0; j < 8; j++) {
-        allCoords.push([i, j]);
-    }
+function findNode(graph, x, y) {
+  return graph.find((n) => n.x === x && n.y === y);
 }
 
-test.each(allCoords)("Node [%i][%i] is linked correctly to its neighbors", (i, j) => {
-    const node = board.board[i][j];
+test("All nodes in board", () => {
+    expect(board.graph.length).toBe(64);
+});
 
-    // Right
-    if (i < 7) {
-        expect(node.right.x).toBe(i + 1);
-        expect(node.right.y).toBe(j);
-    } else {
-        expect(node.right).toBeNull();
-    }
+test("Corner node [0,0] has correct knight moves", () => {
+    const node = findNode(board.graph, 0, 0);
+    const expected = [[1, 2], [2, 1]];
 
-    // Left
-    if (i > 0) {
-        expect(node.left.x).toBe(i - 1);
-        expect(node.left.y).toBe(j);
-    } else {
-        expect(node.left).toBeNull();
-    }
+    expect(node.moves.length).toBe(expected.length);
+    expected.forEach(([x, y]) => {
+        expect(node.moves.some((n) => n.x === x && n.y === y)).toBe(true);
+    });
+});
 
-    // Top
-    if (j < 7) {
-        expect(node.top.x).toBe(i);
-        expect(node.top.y).toBe(j + 1);
-    } else {
-        expect(node.top).toBeNull();
-    }
+test("Edge node [0,3] has correct knight moves", () => {
+    const node = findNode(board.graph, 0, 3);
+    const expected = [[1, 1], [1, 5], [2, 2], [2, 4]];
 
-    // Bottom
-    if (j > 0) {
-        expect(node.bottom.x).toBe(i);
-        expect(node.bottom.y).toBe(j - 1);
-    } else {
-        expect(node.bottom).toBeNull();
-    }
+    expect(node.moves.length).toBe(expected.length);
+    expected.forEach(([x, y]) => {
+        expect(node.moves.some((n) => n.x === x && n.y === y)).toBe(true);
+    });
+});
+
+test("Center node [4,4] has correct knight moves (all 8)", () => {
+    const node = findNode(board.graph, 4, 4);
+    const expected = [
+        [5, 6], [5, 2], [3, 6], [3, 2],
+        [6, 5], [6, 3], [2, 5], [2, 3],
+    ];
+
+    expect(node.moves.length).toBe(8);
+    expected.forEach(([x, y]) => {
+        expect(node.moves.some((n) => n.x === x && n.y === y)).toBe(true);
+    });
 });
