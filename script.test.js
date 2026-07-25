@@ -89,9 +89,9 @@ test("All nodes in board", () => {
 test.each(allExpected)("Node [$x][$y] has correct knight moves", ({ x, y, moves }) => {
     const node = findNode(board.graph, x, y);
 
-    expect(node.moves.length).toBe(moves.length);
+    expect(node.allMoves.length).toBe(moves.length);
     moves.forEach(([mx, my]) => {
-        expect(node.moves.some((n) => n.x === mx && n.y === my)).toBe(true);
+        expect(node.allMoves.some((n) => n.x === mx && n.y === my)).toBe(true);
     });
 });
 

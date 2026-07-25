@@ -25,18 +25,14 @@ class Board {
                 this.graph.push(new Node(i, j));
         
         this.graph.forEach(node => {
-            const moves = findMoves(node.x, node.y);
-
-            if (node.x == 0 && node.y == 0)
-                console.log(moves);
-            moves.forEach(coor => {
-                node.moves.push(this.findNode(coor[0], coor[1]));
+            findMoves(node.x, node.y).forEach(coor => {
+                node.allMoves.push(this.findNode(coor[0], coor[1]));
             });
         });
     }
 
     findNode(x, y) {
-        return this.graph.find(n => n.x == x && n.y == y);
+        return this.graph.find(n => n.x === x && n.y === y);
     }
 }
 
