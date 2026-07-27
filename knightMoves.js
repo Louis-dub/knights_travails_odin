@@ -23,7 +23,7 @@ export function knightMoves(c1, c2) {
         }
     }
     while (curNode !== n1) {
-        curNode = curNode.allMoves.find(n => visit.includes(n) && !curNode.moves.includes(n));
+        curNode = curNode.allMoves.find(n => visit.includes(n) && !curNode.moves.includes(n) && !path.some(([px, py]) => px === n.x && py === n.y));
         path.push([curNode.x, curNode.y]);
     }
     return path.reverse();
